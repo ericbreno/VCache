@@ -26,7 +26,7 @@ Gets actual size of the cache (counts all the items not expired, doesn't remove 
 cache.count(); 
 ```
 
-Checks if this key is present and not expired in cache (removes expired objects, counts as hit or miss).
+Checks if this key is present and not expired in cache (removes expired objects, counts as hit or miss and refreshes the entity timeout).
 ```
 cache.contains(key);
 ```
@@ -39,6 +39,8 @@ cache.getTimeout();
 
 ## Timeout
 Objects are partially lazy-removed from cache, being deleted when tried to get or after an arbitrary number of add operations in cache, then GC runs (complexity of approx O(n + nlog n), with n as cache total size). Object Timeout is refreshed everytime the object is accessed (with put, get or contains).
+
+**#putIfAbsent** will refresh the entity for a given key if it's actually present and will count as hit or miss.
 
 ## Dependencies
 None

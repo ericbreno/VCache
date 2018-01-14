@@ -27,8 +27,7 @@
         const expiredOrUndf = innerData.isExpiredOrUndf(cacheObj);
         if (expiredOrUndf) {
             innerData.missed++;
-            cacheObj && delete innerData.data[key];
-            innerData.gcCount--;
+            cacheObj && delete innerData.data[key] && innerData.gcCount--;
             return undefined;
         }
         cacheObj.refresh();
@@ -48,8 +47,6 @@
         if (!this.contains(key)) {
             this.put(key, value);
             innerData.missed--;
-        } else {
-            innerData.hit++;
         }
     };
 
