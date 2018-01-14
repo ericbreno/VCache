@@ -3,12 +3,12 @@
     const DEF_TIMEOUT = 5 * 1000;
     const DEF_NAME = "cache";
     // arbitrary limit to run GC
-    const GC_LIMIT = 5000;
+    const GC_LIMIT = 2000;
 
     const garbageCollector = innerData => {
         Object.keys(innerData.data).forEach(key => {
             if (innerData.isExpiredOrUndf(innerData.data[key])) {
-                delete innerData[key];
+                delete innerData.data[key];
             }
         });
         innerData.gcCount = 0;
@@ -68,10 +68,9 @@
         const innerData = {
             hit: 0,
             missed: 0,
-            timeout,
-            isExpiredOrUndf() {
+            isExpiredOrUndf(cacheObj) {
                 const now = new Date().getTime();
-                return !Boolean(cacheObj) || (now - cacheObj.time > this.timeout);
+                return !Boolean(cacheObj) || (now - cacheObj.time > timeout);
             },
             gcCount: 0,
             data: {}
